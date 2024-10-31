@@ -4,6 +4,7 @@ from django.db import models
 class Places(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название')
     description_short = models.TextField(blank=True, verbose_name='Краткое описание')
+    description_long = models.TextField(blank=True, verbose_name='Полное описание')
     lon = models.FloatField(null=True, verbose_name='Долгота')
     lat = models.FloatField(null=True, verbose_name='Широта')
     

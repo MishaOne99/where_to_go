@@ -1,13 +1,12 @@
 from django.db import models
 
 
-class Places(models.Model):
+class Place(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название')
-    place_id = models.CharField(max_length=50, null=True, verbose_name='Идентификатор места')
-    description_short = models.TextField(blank=True, verbose_name='Краткое описание')
-    description_long = models.TextField(blank=True, verbose_name='Полное описание')
-    lon = models.FloatField(null=True, verbose_name='Долгота')
-    lat = models.FloatField(null=True, verbose_name='Широта')
+    description_short = models.TextField(blank=True, null=True, verbose_name='Краткое описание')
+    description_long = models.TextField(blank=True, null=True, verbose_name='Полное описание')
+    lat = models.FloatField(blank=True, null=True, verbose_name='Широта')
+    lon = models.FloatField(blank=True, null=True, verbose_name='Долгота')
     
     def __str__(self) -> str:
         return self.title
@@ -17,13 +16,13 @@ class Places(models.Model):
         verbose_name_plural = 'Места'
 
 
-class Images(models.Model):
-    title = models.CharField(max_length=200, verbose_name='Название')
-    number = models.IntegerField(blank=True, verbose_name='Номер изображения')
-    image = models.ImageField(blank=True)
+class Image(models.Model):
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, verbose_name='Название локации', related_name='images')
+    image = models.ImageField(blank=True, null=True, verbose_name='Изображение')
+    image_id = models.PositiveIntegerField(db_index=True, default=0, verbose_name='Номер изображения')
     
     def __str__(self) -> str:
-        return f'№{self.number} - {self.title}'
+        return str(self.place)
     
     class Meta:
         verbose_name = 'Изображение'

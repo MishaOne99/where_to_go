@@ -1,12 +1,13 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
+from django.urls import reverse
 
-from places.models import Places, Images
+from places.models import Place, Image
 
 
 def show_map(request):
     
-    places = Places.objects.all()
+    places = Place.objects.all()
     
     features = []
     
@@ -19,8 +20,7 @@ def show_map(request):
             },
             "properties": {
                 "title": place.title,
-                "placeId": place.place_id,
-                "detailsUrl": f'https://raw.githubusercontent.com/devmanorg/where-to-go-frontend/refs/heads/master/places/{place.place_id}.json'
+                "detailsUrl": reverse('show_place_detail', args=[place.id])
             }
         }
         features.append(feature)
@@ -36,14 +36,14 @@ def show_map(request):
 
 
 def show_place_detail(request, place_id):
-    place = get_object_or_404(Places, id=place_id)
-    images = Images.objects.filter(title=place.title)
+    place = get_object_or_404(Place, id=place_id)
+    images = Image.objects.filter(place=place)
     
     images_url = [image.image.url for image in images]
     
     context = {
         'title': place.title,
-        'images': [images_url],
+        'imgs': images_url,
         'description_short': place.description_short,
         'description_long': place.description_long,
         'coordinates': {

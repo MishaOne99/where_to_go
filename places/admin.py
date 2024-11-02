@@ -1,4 +1,5 @@
 from adminsortable2.admin import SortableAdminBase, SortableStackedInline, SortableAdminMixin
+
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
@@ -22,7 +23,7 @@ class ImageInline(SortableStackedInline, admin.TabularInline):
 
 @admin.register(Place)
 class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
-    list_display = ('id', 'title',)
+    list_display = ('title',)
     search_fields = ('title',)
     list_filter = ('title',)
     inlines = [ImageInline]

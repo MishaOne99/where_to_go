@@ -12,10 +12,10 @@ class ImageInline(SortableStackedInline, admin.TabularInline):
 
     def image_tag(self, obj):
         if obj.image:
-            return format_html('<img src="{}" style="width: 150px; height: 150px;" />', self.image.url)
+            return format_html('<img src="{}" style="max-width: 150px; max-height: 150px;" />', self.image.url)
         return "No Image"
 
-    image_tag.short_description = 'Image Preview'
+    image_tag.short_description = 'Предпросмотр изображения'
 
     readonly_fields = ('image_tag',)
     fields = ('image', 'image_tag',)
@@ -31,6 +31,7 @@ class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ('image_tag', 'image_number', 'place')
-    search_fields = ('image_number', 'place')
-    list_filter = ('image_number', 'place')
+    list_display = ('image_number', 'image_tag', 'place')
+    search_fields = ('place',)
+    list_filter = ('place',)
+    autocomplete_fields = ('place',)

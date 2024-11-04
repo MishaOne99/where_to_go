@@ -1,7 +1,7 @@
 from adminsortable2.admin import SortableAdminBase, SortableStackedInline, SortableAdminMixin
 
 from django.contrib import admin
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 
 from .models import Place, Image
 
@@ -12,7 +12,7 @@ class ImageInline(SortableStackedInline, admin.TabularInline):
 
     def image_tag(self, obj):
         if obj.image:
-            return mark_safe(f'<img src="{obj.image.url}" style="width: 150px; height: 150px;" />')
+            return format_html('<img src="{}" style="width: 150px; height: 150px;" />', self.image.url)
         return "No Image"
 
     image_tag.short_description = 'Image Preview'

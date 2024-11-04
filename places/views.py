@@ -36,14 +36,11 @@ def show_map(request):
 
 
 def show_place_detail(request, place_id):
-    place = get_object_or_404(Place, id=place_id)
-    images = Image.objects.filter(place=place)
-    
-    images_url = [image.image.url for image in images]
+    place = get_object_or_404(Place.objects.all().prefetch_related('images'), id=place_id)
     
     context = {
         'title': place.title,
-        'imgs': images_url,
+        'imgs': [image.image.url for image in place.images.all()],
         'description_short': place.short_description,
         'description_long': place.long_description,
         'coordinates': {

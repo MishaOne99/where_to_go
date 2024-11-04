@@ -22,13 +22,13 @@ class Place(models.Model):
 class Image(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE, verbose_name='Название локации', related_name='images')
     image = models.ImageField(verbose_name='Изображение')
-    image_id = models.PositiveIntegerField(db_index=True, default=1, verbose_name='Номер изображения')
+    image_number = models.PositiveIntegerField(db_index=True, default=1, verbose_name='Номер изображения')
     
     class Meta:
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
         
-        ordering = ['image_id']
+        ordering = ['image_number']
     
     def __str__(self) -> str:
         return str(self.place)

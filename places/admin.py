@@ -31,6 +31,6 @@ class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ('image_tag', 'image_id', 'place')
-    search_fields = ('image_id', 'place')
-    list_filter = ('image_id', 'place')
+    list_display = ('image_tag', 'image_number', 'place')
+    search_fields = ('image_number', 'place')
+    list_filter = ('image_number', 'place')

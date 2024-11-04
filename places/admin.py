@@ -1,4 +1,8 @@
-from adminsortable2.admin import SortableAdminBase, SortableStackedInline, SortableAdminMixin
+from adminsortable2.admin import (
+    SortableAdminBase,
+    SortableStackedInline,
+    SortableAdminMixin
+)
 
 from django.contrib import admin
 from django.utils.html import format_html
@@ -12,7 +16,10 @@ class ImageInline(SortableStackedInline, admin.TabularInline):
 
     def image_tag(self, obj):
         if obj.image:
-            return format_html('<img src="{}" style="max-width: 150px; max-height: 150px;" />', self.image.url)
+            return format_html(
+                '<img src="{}" style="max-width: 150px; max-height: 150px;" />',
+                self.image.url
+            )
         return 'No Image'
 
     image_tag.short_description = 'Предпросмотр изображения'

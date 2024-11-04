@@ -6,11 +6,8 @@ from places.models import Place, Image
 
 
 def show_map(request):
-    
     places = Place.objects.all()
-    
     features = []
-    
     for place in places:
         feature = {
             'type': 'Feature',
@@ -24,20 +21,19 @@ def show_map(request):
             }
         }
         features.append(feature)
-        
     context = {
-        'places_geo' : {
+        'places_geo': {
             'type': 'FeatureCollection',
             'features': features
         }
     }
-    
     return render(request, 'index.html', context=context)
 
 
 def show_place_detail(request, place_id):
-    place = get_object_or_404(Place.objects.all().prefetch_related('images'), id=place_id)
-    
+    place = get_object_or_404(
+        Place.objects.all().prefetch_related('images'), id=place_id
+    )
     context = {
         'title': place.title,
         'imgs': [image.image.url for image in place.images.all()],
@@ -48,5 +44,7 @@ def show_place_detail(request, place_id):
             'lon': place.lon
         }
     }
-    
-    return JsonResponse(context, json_dumps_params={'ensure_ascii': False, 'indent': 2})
+    return JsonResponse(
+        context,
+        json_dumps_params={'ensure_ascii': False, 'indent': 2}
+    )

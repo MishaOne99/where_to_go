@@ -38,8 +38,8 @@ class Command(BaseCommand):
                 place, created = Place.objects.get_or_create(
                     title=payload['title'],
                     defaults={
-                        'description_short': payload['description_short'],
-                        'description_long': payload['description_long'],
+                        'short_description': payload['description_short'],
+                        'long_description': payload['description_long'],
                         'lat': lat,
                         'lon': lon
                     }
@@ -51,6 +51,8 @@ class Command(BaseCommand):
             if created:
                 self.stdout.write(self.style.SUCCESS(f'Создано новое место: {place.title}'))
                 
+                image_number = 1
+
                 for img_url in payload['imgs']:
                     try:
                         img_response = requests.get(img_url)
@@ -60,13 +62,16 @@ class Command(BaseCommand):
 
                         Image.objects.create(
                             place=place,
-                            image=ContentFile(img_response.content, name=file_name)
+                            image=ContentFile(img_response.content, name=file_name),
+                            image_number=image_number 
                         )
                         self.stdout.write(self.style.SUCCESS(f'Изображение загружено и сохранено: {file_name}'))
                     except requests.exceptions.HTTPError as http_err:
                         self.stdout.write(self.style.ERROR(f'Не удалось загрузить изображение с URL: {img_url} - {http_err}'))
                     except Exception as err:
                         self.stdout.write(self.style.ERROR(f'Произошла ошибка при загрузке изображения: {err}'))
+                    
+                    image_number += 1
                     
                 self.stdout.write(self.style.SUCCESS('Импорт данных завершен!'))
             else:

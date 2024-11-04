@@ -13,22 +13,22 @@ def show_map(request):
     
     for place in places:
         feature = {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [place.lon, place.lat]
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [place.lon, place.lat]
             },
-            "properties": {
-                "title": place.title,
-                "detailsUrl": reverse('show_place_detail', args=[place.id])
+            'properties': {
+                'title': place.title,
+                'detailsUrl': reverse('show_place_detail', args=[place.id])
             }
         }
         features.append(feature)
         
     context = {
         'places_geo' : {
-            "type": "FeatureCollection",
-            "features": features
+            'type': 'FeatureCollection',
+            'features': features
         }
     }
     

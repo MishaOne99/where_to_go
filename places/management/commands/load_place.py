@@ -58,7 +58,7 @@ class Command(BaseCommand):
                         img_response = requests.get(img_url)
                         img_response.raise_for_status()
 
-                        file_name = img_url.split("/")[-1]
+                        file_name = img_url.split('/')[-1]
 
                         Image.objects.create(
                             place=place,

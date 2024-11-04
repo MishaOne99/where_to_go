@@ -13,7 +13,7 @@ class ImageInline(SortableStackedInline, admin.TabularInline):
     def image_tag(self, obj):
         if obj.image:
             return format_html('<img src="{}" style="max-width: 150px; max-height: 150px;" />', self.image.url)
-        return "No Image"
+        return 'No Image'
 
     image_tag.short_description = 'Предпросмотр изображения'
 
